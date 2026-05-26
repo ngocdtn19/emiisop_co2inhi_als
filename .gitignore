@@ -1,0 +1,4 @@
+**/__pycache__/**
+**/plt_data/**
+*.npz
+*.joblib
