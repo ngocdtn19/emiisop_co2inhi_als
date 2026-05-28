@@ -6,17 +6,17 @@ import cartopy.crs as ccrs
 import matplotlib as mpl
 import xarray as xr
 import pandas as pd
-import pickle
+import pymannkendall as pymk
 
 from scipy import stats
 from scipy.stats import pearsonr
 from sklearn.metrics import mean_squared_error
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
-from mypath import *
-from MultiModel import *
-import mk
-import pymannkendall as pymk
+
+from .mypath import *
+from .MultiModel import *
+from .mk import *
 
 # colors_dict = {
 #     "co2": "#8da0cb",
@@ -94,7 +94,7 @@ def plt_mean_glob_pd(emiisop):
 
 # Plot Fig. 1b - regional contribution for the near present-day (2016-2021)
 def plt_regional_contri(emiisop):
-    l_roi = LIST_REGION
+    l_roi = LIST_REGION_CO2INHI
     model_names = list(emiisop.multi_models.keys())
 
     l_y = []
@@ -134,7 +134,7 @@ def plt_regional_contri(emiisop):
 
 
 # Plot Fig. 2 - Plot base map (VISIT-woCO2inhi) and Difference map between each sen exp and VISIT-woCO2inhi (2000-2023)
-def plt_glob_present_diff_map(emiisop, cmap="bwr"):
+def plt_glob_present_diff_map(emiisop, cmap="bwr", unit="absolute"):
     list_models = list(emiisop.multi_models.keys())
     # Make sure VISIT-woCO2inhi comes first
     list_models = ["VISIT-woCO2inhi"] + [
@@ -142,7 +142,9 @@ def plt_glob_present_diff_map(emiisop, cmap="bwr"):
     ]
 
     # Difference colorbar settings
-    vmin_diff, vmax_diff = -3, 3
+    vmin_diff, vmax_diff = -2, 2
+    if unit == "relative":
+        vmin_diff, vmax_diff = -30, 30
     levels_diff = 21
     bounds_diff = np.linspace(vmin_diff, vmax_diff, levels_diff)
     cmap_diff = mpl.colormaps.get_cmap(cmap)
@@ -205,9 +207,14 @@ def plt_glob_present_diff_map(emiisop, cmap="bwr"):
                 .annual_per_area_unit.sel(year=slice(2000, 2023))
                 .mean("year")
             )
-            diff = ((data1 - data0) * 100 / data0) * emiisop.multi_models[m].ds_mask[
-                "mask"
-            ]
+            # diff = ((data1 - data0) * 100 / data0) * emiisop.multi_models[m].ds_mask[
+            #     "mask"
+            # ]
+            diff = (data1 - data0) * emiisop.multi_models[m].ds_mask["mask"]
+            if unit == "relative":
+                diff = (data1 - data0) * 100 / data0 * emiisop.multi_models[m].ds_mask[
+                    "mask"
+                ]
             diff = diff.sel(lat=slice(82.75, -55.25))
 
             diff.plot.pcolormesh(
@@ -215,6 +222,9 @@ def plt_glob_present_diff_map(emiisop, cmap="bwr"):
                 cmap=cmap_diff,
                 levels=levels_diff,
                 add_colorbar=False,
+                vmin=vmin_diff,
+                vmax=vmax_diff,
+                
             )
             ax.set_title(f"{m}")
 
@@ -238,52 +248,13 @@ def plt_glob_present_diff_map(emiisop, cmap="bwr"):
     cbar_diff = fig.colorbar(
         sm_diff, ax=axes[1::2], orientation="horizontal", shrink=0.8, pad=0.08
     )
-    cbar_diff.set_label("Difference [%]", size=unit_sz)
+    cbar_diff.set_label("Difference [gC m$^{-2}$ yr$^{-1}$]", size=unit_sz)
+    if unit == "relative":
+        cbar_diff.set_label("Difference [%]", size=unit_sz)
 
 
-# Plot Fig. 3 - Mean annual isoprene emission by lat
-def plt_pd_mean_by_lat(emiisop):
-    l_m_names = list(emiisop.multi_models.keys())
-    colors = [
-        "#94C973",
-        "#fdbf6f",
-        "#fb9a99",
-        "#478C5C",
-        "#9467BD",
-        "#e41a1c",
-    ]
-    colors_dict = {m_name: c for m_name, c in zip(l_m_names, colors[: len(l_m_names)])}
-    lss = ["-", "-.", "-", "--", "-", "-"]
-    ls_dict = {m_name: c for m_name, c in zip(l_m_names, lss[: len(l_m_names)])}
-    fig, ax = plt.subplots(figsize=(9.5, 6.5), layout="constrained")
-    axbox = ax.get_position()
-    for m_name in l_m_names:
-        org_ds = (
-            emiisop.multi_models[m_name]
-            .annual_per_area_unit.sel(year=slice(2000, 2021))
-            .mean(dim="year")
-        )
-        ds = org_ds.mean(dim="lon")
-        ds = ds.sel(lat=np.arange(-90, 90, 5), method="nearest")
-        ax.plot(
-            ds.lat,
-            ds,
-            label=m_name,
-            linewidth=2.5,
-            color=colors_dict[m_name],
-            ls=ls_dict[m_name],
-        )
-        ax.set_xlabel("Latitude")
-        ax.set_ylabel(VIZ_OPT[emiisop.var_name]["map_unit"], fontsize=14)
-        plt.ylim([0, 5])
-        ax.legend(
-            loc="center",
-            ncol=3,
-            bbox_to_anchor=[axbox.x0 + 0.5 * axbox.width, axbox.y0 - 0.25],
-        )
 
-
-# Plot Fig. 4 - Interannual variations in global isoprene emission over 1901–2021
+# Plot Fig. 3a - Interannual variations in global isoprene emission over 2000–2023
 def plt_glob_annual_variation(emiisop):
     model_names = list(emiisop.multi_models.keys())
     colors = [
@@ -324,7 +295,7 @@ def plt_glob_annual_variation(emiisop):
     )
 
 
-# Plot Fig. 5 - Interannual variations in regional isoprene emission over 1901-2021
+# Plot Fig. 3b- Interannual variations in regional isoprene emission over 2000-2023
 def plt_reg_annual_variation(emiisop):
     model_names = emiisop.multi_models.keys()
     colors = [
@@ -344,7 +315,7 @@ def plt_reg_annual_variation(emiisop):
 
     fig, axis = plt.subplots(3, 3, figsize=(3.5 * 3, 3.6 * 3), layout="constrained")
 
-    for i, roi in enumerate(LIST_REGION):
+    for i, roi in enumerate(LIST_REGION_CO2INHI):
         ri, ci = i // 3, i % 3
         ax = axis[ri, ci]
 
@@ -415,8 +386,8 @@ def cal_org_trends_map(var_obj, var_name, model_name, start_year=2000, end_year=
     return slope
 
 
-# Plot Fig.5 - Spatial distribution of isoprene emission trends from 1901 to 2021
-def plt_emiisop_trends_map(emiisop, start_year=2005, end_year=2023, cmap="bwr"):
+# Plot Fig.4 - Spatial distribution of isoprene emission trends from 2000 to 2023
+def plt_emiisop_trends_map(emiisop, start_year=2000, end_year=2023, cmap="bwr"):
     list_models = list(emiisop.multi_models.keys())
 
     cmap = mpl.colormaps.get_cmap(cmap)
@@ -592,6 +563,6 @@ def sup_plt_srex_regions():
 
 
 # %%
-emiisop = Var("emiisop")
+# emiisop = Var("emiisop")
 
 # %%

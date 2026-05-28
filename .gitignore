@@ -2,3 +2,4 @@
 **/plt_data/**
 *.npz
 *.joblib
+plt_data.tar.gz

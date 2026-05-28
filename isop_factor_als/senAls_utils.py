@@ -1,8 +1,9 @@
 import xarray as xr
 import os
 from cartopy.util import add_cyclic_point
-from const import *
-from mypath import *
+
+from .const import *
+from .mypath import *
 
 
 def prep_area(ds, model_name):

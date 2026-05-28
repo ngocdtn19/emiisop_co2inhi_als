@@ -1,10 +1,7 @@
 # %%
-import glob
-import os
-import math
+
 import geopandas as gpd
 import regionmask
-import random
 
 
 DIM_TIME = "time"
@@ -84,7 +81,7 @@ hoque_reg_coords = {
 }
 
 HOQUE_REGIONS = list(hoque_reg_coords.keys())
-LIST_REGION = LIST_SREX_REGION + HOQUE_REGIONS
+LIST_REGION_CO2INHI = LIST_SREX_REGION + HOQUE_REGIONS
 
 LIST_COLOR = [
     "#ff5005",
@@ -116,7 +113,7 @@ LIST_COLOR = [
 ]
 
 
-ROI_COLORS = {roi: color for roi, color in zip(LIST_REGION, LIST_COLOR)}
+ROI_COLORS = {roi: color for roi, color in zip(LIST_REGION_CO2INHI, LIST_COLOR)}
 
 VIZ_OPT = {
     "emiisop": {

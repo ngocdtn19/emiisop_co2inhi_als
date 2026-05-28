@@ -1,7 +1,7 @@
 # %%
 import glob
 import os
-from const import *
+from .const import *
 
 """
 Directory structure

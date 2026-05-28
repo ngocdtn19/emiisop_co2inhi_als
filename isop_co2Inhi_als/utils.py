@@ -10,8 +10,8 @@ import pandas as pd
 import regionmask
 import geopandas as gpd
 
-from const import *
-from mypath import *
+from .const import *
+from .mypath import *
 
 
 def clip_region_mask(ds, region_name="SEA"):

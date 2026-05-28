@@ -8,13 +8,13 @@ import matplotlib
 import cartopy.crs as ccrs
 import pymannkendall as pymk
 
-
-from mk import *
-
-from visit_preprocess import *
-from senAls_utils import *
-from utils import *
 from copy import deepcopy
+
+from .mk import *
+
+from .visit_preprocess import *
+from .senAls_utils import *
+from .utils import *
 
 
 def cal_mk(ds, var_name):
@@ -248,37 +248,37 @@ class VisitSenAls:
 
 
 # %%
-cases = ["MEGANpft", "UKpft", "woCO2inhi"]
-visits = {}
-for case in cases:
-    visits[case] = VisitSenAls(visit_case=case, var_name="emiisop")
+# cases = ["MEGANpft", "UKpft", "woCO2inhi"]
+# visits = {}
+# for case in cases:
+#     visits[case] = VisitSenAls(visit_case=case, var_name="emiisop")
 # %%
-from plt import plt_glob_changes_by_driver, plt_glob_trends_by_driver
+# from plt import plt_glob_changes_by_driver, plt_glob_trends_by_driver
 
-plt_glob_changes_by_driver(visits, "main")
-plt_glob_trends_by_driver(visits, "main")
+# plt_glob_changes_by_driver(visits, "main")
+# plt_glob_trends_by_driver(visits, "main")
 
-plt_glob_changes_by_driver(visits, "clim")
-plt_glob_trends_by_driver(visits, "clim")
+# plt_glob_changes_by_driver(visits, "clim")
+# plt_glob_trends_by_driver(visits, "clim")
 
 # %%
-for c in cases:
-    lcluc_slope = cal_mk(visits[c].ds_vars, "lulcc")
-    lcluc_slope = lcluc_slope
-    fig = plt.figure()
-    ax = plt.axes(projection=ccrs.Robinson(central_longitude=180))
-    lcluc_slope.emiisop.plot(
-        ax=ax,
-        transform=ccrs.PlateCarree(),
-        cmap="bwr",
-        vmin=-2,
-        vmax=2,
-        cbar_kwargs={
-            "label": "(µgC yr$^{-1}$)",
-            "shrink": 0.5,
-        },
-    )
-    ax.coastlines()
-    ax.set_title(f"Trend of isoprene emission change due to LULCC - {c} VISIT")
-    plt.show()
+# for c in cases:
+#     lcluc_slope = cal_mk(visits[c].ds_vars, "lulcc")
+#     lcluc_slope = lcluc_slope
+#     fig = plt.figure()
+#     ax = plt.axes(projection=ccrs.Robinson(central_longitude=180))
+#     lcluc_slope.emiisop.plot(
+#         ax=ax,
+#         transform=ccrs.PlateCarree(),
+#         cmap="bwr",
+#         vmin=-2,
+#         vmax=2,
+#         cbar_kwargs={
+#             "label": "(µgC yr$^{-1}$)",
+#             "shrink": 0.5,
+#         },
+#     )
+#     ax.coastlines()
+#     ax.set_title(f"Trend of isoprene emission change due to LULCC - {c} VISIT")
+#     plt.show()
 # %%

@@ -14,8 +14,11 @@ from sklearn.metrics import mean_squared_error as mse
 from scipy.stats import pearsonr
 from pathlib import Path
 
-from utils import *
-from max_doas import *
+from .utils import *
+from .max_doas import *
+
+# from utils import *
+# from max_doas import *
 
 # AKED_CHASER_HCHO SETTING
 AKED_DIR = "/mnt/nj2/ngoc/emiisop_co2inhi_als/data/hcho_sat_ak_applied"
@@ -290,7 +293,7 @@ def plt_reg(hcho, norm=False, unit=None, sslat=False):
                 reg_df = df[[index, r]].set_index(index).rename(columns={r: c})
 
                 periods = (
-                    ["2005-2014", "2013-2022", "2005-2022"]
+                    ["2005-2022"]
                     if len(reg_df) >= 10
                     else ["2018-2023"]
                 )
@@ -1196,6 +1199,6 @@ def plt_regional_bbox():
 
 # %%
 
-interp_omi_v2 = load_hcho("omi", "v2", layer_used=14)
-interp_tropo_v2 = load_hcho("tropo", "v2", layer_used=14)
+# interp_omi_v2 = load_hcho("omi", "v2", layer_used=14)
+# interp_tropo_v2 = load_hcho("tropo", "v2", layer_used=14)
 # %%

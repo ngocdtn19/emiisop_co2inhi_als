@@ -1,0 +1,22 @@
+name: bvoc
+channels:
+  - defaults
+dependencies:
+  - pymannkendall
+  - rioxarray
+  - seaborn
+  - xarray=2022.10.0
+  - python=3.10.4
+  - netcdf4
+  - black
+  - matplotlib
+  - regionmask
+  - cartopy
+  - nc-time-axis
+  - pygeos
+  - ipykernel
+  - geocat-viz
+  - xeofs
+  - geocat-comp
+  - cfgrib
+prefix: /home/ngoc/anaconda3/envs/bvoc

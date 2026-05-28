@@ -6,15 +6,16 @@ import matplotlib as mpl
 import xarray as xr
 import pandas as pd
 import pickle
+import pymannkendall as pymk
 
 from scipy import stats
 from scipy.stats import pearsonr
 from sklearn.metrics import mean_squared_error
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
-from mypath import *
-import mk
-import pymannkendall as pymk
+
+from .mypath import *
+from .mk import *
 
 title_sz = 16
 legend_sz = 14

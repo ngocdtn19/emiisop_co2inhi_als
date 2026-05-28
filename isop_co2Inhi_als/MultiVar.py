@@ -1,6 +1,5 @@
 # %%
 import xarray as xr
-import calendar
 
 # import rioxarray
 import numpy as np
@@ -12,9 +11,9 @@ import regionmask
 import geopandas as gpd
 
 
-from utils import *
-from const import *
-from mypath import *
+from .utils import *
+from .const import *
+from .mypath import *
 
 
 class MultiVar:
@@ -104,7 +103,7 @@ class MultiVar:
         ds = ds.sortby(ds.lon)
         ds = ds.rio.set_spatial_dims("lon", "lat", inplace=True)
         subset = {}
-        for roi in LIST_REGION:
+        for roi in LIST_REGION_CO2INHI:
             subset[roi] = clip_region_mask(ds, roi)
         return subset
 
@@ -119,7 +118,7 @@ class MultiVar:
         ds_area = ds_area.sortby(ds_area.lon)
         ds_area = ds_area.rio.set_spatial_dims("lon", "lat", inplace=True)
         subset = {}
-        for roi in LIST_REGION:
+        for roi in LIST_REGION_CO2INHI:
             subset[roi] = clip_region_mask(ds_area, roi)
         return subset
 

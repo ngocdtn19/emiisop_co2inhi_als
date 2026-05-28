@@ -3,7 +3,6 @@ import sys
 
 sys.path.append("/home/ngoc/nc2gtool/pygtool3/pygtool3/")
 
-import mk
 import copy
 import pygtool
 import regionmask
@@ -14,12 +13,16 @@ import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 
-from mypath import *
 from scipy import stats
 from pathlib import Path
 from datetime import datetime
 from scipy.stats import pearsonr
 
+from .mk import *
+from .mypath import *
+
+# from mk import *
+# from mypath import *
 
 geogrid = pygtool.readgrid()
 chaser_lon, chaser_lat = geogrid.getlonlat()

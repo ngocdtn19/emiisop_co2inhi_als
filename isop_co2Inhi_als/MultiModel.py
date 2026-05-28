@@ -1,13 +1,15 @@
 # %%
 
-from MultiVar import *
-from const import *
-from mypath import *
-from scipy import stats
-from visit_preprocess import *
+
 from cartopy.util import add_cyclic_point
-import mk
+from scipy import stats
 import xskillscore as xs
+
+from .visit_preprocess import *
+from .mk import *
+from .MultiVar import *
+from .const import *
+from .mypath import *
 
 sns.set_style("ticks")
 
@@ -99,7 +101,7 @@ class Var(ModelVar):
 
     def plot_regional_map(self):
         """Regional map visual examination"""
-        rois = LIST_REGION
+        rois = LIST_REGION_CO2INHI
         l_m_name = list(self.multi_models.keys())
         ds = self.multi_models[l_m_name[0]]
         for i, r in enumerate(rois):

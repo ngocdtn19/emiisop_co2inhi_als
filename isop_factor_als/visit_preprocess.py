@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 
 # from CMIP6Var import CMIP6Var
 
-from const import *
-from mypath import *
+from .const import *
+from .mypath import *
 
 
 def year_2_cft(dcm_year):

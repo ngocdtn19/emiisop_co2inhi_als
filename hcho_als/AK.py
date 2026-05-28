@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.interpolate import interp1d, InterpolatedUnivariateSpline
-from utils import *
+from .utils import *
 
 geogrid = pygtool.readgrid()
 Clon, Clat = geogrid.getlonlat()

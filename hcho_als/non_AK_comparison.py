@@ -12,8 +12,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from utils import *
-from plt import *
+from .utils import *
+from .plt import *
 
 geogrid = pygtool.readgrid()
 Clon, Clat = geogrid.getlonlat()

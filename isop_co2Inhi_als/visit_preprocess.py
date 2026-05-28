@@ -5,10 +5,10 @@ import numpy as np
 import copy
 
 from datetime import datetime, timedelta
-from MultiVar import *
 
-from const import *
-from mypath import *
+from .MultiVar import *
+from .const import *
+from .mypath import *
 
 
 def year_2_cft(dcm_year):
@@ -50,9 +50,13 @@ def visit_t2cft(visit_nc, var_name, m_name="VISIT_ORG"):
             org_visit_ds = org_visit_ds.rename({"Isprn": var_name})
         else:
             org_visit_ds = org_visit_ds.rename({"isopr": var_name})
-
+    
+    #uncomment the below for different time range
+    # org_visit_ds = org_visit_ds.where(
+    #     org_visit_ds[var_name].sel(time=slice("2000-01", "2023-12"))
+    # )
     org_visit_ds = org_visit_ds.where(
-        org_visit_ds[var_name].sel(time=slice("2000-01", "2023-12"))
+        org_visit_ds[var_name].sel(time=slice("1901-01", "2023-12"))
     )
     org_visit_ds = org_visit_ds.where(org_visit_ds[var_name] != -9999.0)
     org_visit_ds = org_visit_ds.where(org_visit_ds[var_name] != -99999.0)

@@ -2,12 +2,9 @@
 import xarray as xr
 import cftime
 import numpy as np
-import copy
 
-from datetime import datetime, timedelta
-from MultiVar import *
-
-from utils import *
+from .MultiVar import *
+from .utils import *
 
 
 def cams_preprocess():
