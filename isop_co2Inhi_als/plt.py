@@ -229,6 +229,11 @@ def plt_glob_present_diff_map(emiisop, cmap="bwr", unit="absolute"):
             ax.set_title(f"{m}")
 
         ax.coastlines()
+        ax.text(
+            0.10, 0.20, f"({chr(ord('a') + i)})",
+            transform=ax.transAxes, ha="center", va="center",
+            fontsize=12, fontweight="bold",
+        )
 
     # Turn off any unused axes
     for j in range(n_models, len(axes)):
@@ -286,7 +291,7 @@ def plt_glob_annual_variation(emiisop):
         res = pymk.original_test(y, alpha=0.05)
         print(m_name, res)
 
-    ax.set_xlabel("Year")
+    # ax.set_xlabel("Year")
     ax.set_ylabel(VIZ_OPT[emiisop.var_name]["line_bar_unit"], fontsize=14)
     ax.legend(
         loc="center",
@@ -522,6 +527,11 @@ def plt_emiisop_trends_diff_map(emiisop):
             add_colorbar=False,
         )
         ax.coastlines()
+        ax.text(
+                    0.10, 0.20, f"({chr(ord('a') + i)})",
+                    transform=ax.transAxes, ha="center", va="center",
+                    fontsize=12, fontweight="bold",
+                )
         ax.set_title(f"{m}")
 
     # Turn off unused axes
